@@ -1,0 +1,6 @@
+C:\Users\c0020358\Desktop\LUA\LUA_Attack\LUA_SIClone\Debug\LUA_SIClone.vcxproj.MdMergeInputs.cache
+C:\Users\c0020358\Desktop\LUA\LUA_Attack\LUA_SIClone\Debug\LUA_SIClone.vcxproj.cppwinrt_plat.cache
+C:\Users\c0020358\Desktop\LUA\LUA_Attack\LUA_SIClone\Debug\LUA_SIClone.vcxproj.cppwinrt_comp.cache
+E:\University\Year2\3D Games\Project3\LUA_SIClone\Debug\LUA_SIClone.vcxproj.MdMergeInputs.cache
+E:\University\Year2\3D Games\Project3\LUA_SIClone\Debug\LUA_SIClone.vcxproj.cppwinrt_plat.cache
+E:\University\Year2\3D Games\Project3\LUA_SIClone\Debug\LUA_SIClone.vcxproj.cppwinrt_comp.cache
