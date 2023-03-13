@@ -47,6 +47,7 @@ Add SFX to mothership taking damage
 #include <string>
 #include "Helper.h"
 
+
 using namespace std;
 //globals ***maybe add to a class along with the functions below??***
 Ufo*** DynamicUfoArray;
@@ -54,7 +55,7 @@ Player* the_ship;
 Game* Game_manager;
 int x, y;//used for ufo array coordinates
 
-int randomNumber();//random number generator
+//int randomNumber();//random number generator
 void destroyUFOs();
 void spawnUFOs();
 void display_message(const char* message);
@@ -189,8 +190,10 @@ int main()
 						{
 							if (DynamicUfoArray[y][x] != nullptr)
 							{
-								laser_generator = randomNumber();
-								if (laser_generator >= 41 - (ufo_counter / 3) && laser_generator <= 50 + (ufo_counter / 3))
+								/*laser_generator = randomNumber();*/
+								laser_generator = CallRandomNumber(L, "randomNumber");
+								/*if (laser_generator >= 41 - (ufo_counter / 3) && laser_generator <= 50 + (ufo_counter / 3))*/
+								if (laser_generator >= 9996)
 								{
 									for (int i = 0; i < 10; i++)
 									{
@@ -216,8 +219,9 @@ int main()
 							the_mothership = new Mothership(0, 20, "assets/Mothership.bmp");
 							the_mothership->addFrame("assets/Mothership.bmp");
 						}*/
-						Mothership_chance = randomNumber();
-						if (Mothership_chance >= 0);// >= 250 && Mothership_chance <= 255)
+						/*Mothership_chance = randomNumber()*/;
+						Mothership_chance = CallRandomNumber(L, "randomNumber");
+						if (Mothership_chance >= 9990);/*>= 0);*/// >= 250 && Mothership_chance <= 255)
 						{
 							//Vector2 mothershipPos;
 							//playerPos.FromLua(L, "mothershipStartpos");
@@ -289,7 +293,7 @@ int main()
 								&& laser_limit[i]->getY() >= the_mothership->getY() && laser_limit[i]->getY() <= the_mothership->getY() + 42
 								&& laser_limit[i]->getX() + 4 >= the_mothership->getX() && laser_limit[i]->getX() + 4 <= the_mothership->getX() + 103)  
 							{																	
-								the_mothership->reduceLives();
+  								the_mothership->reduceLives();
 								the_ship->setScore(20);
 								if (the_mothership->getLives() <= 0)
 								{
@@ -303,7 +307,7 @@ int main()
 									laser_limit[i] = NULL;
 								}								
 							}
-							if (laser_limit[i] != NULL)//draw and move the player laser if no hit
+							else if (laser_limit[i] != NULL)//draw and move the player laser if no hit
 							{
 								laser_limit[i]->draw();
 								laser_limit[i]->up();
@@ -548,13 +552,15 @@ int main()
 	return 0;
 }
 
-int randomNumber()//random number generator
-{
-	//Gives the remainder of a division of the random seed by the maximum range  
-	//(this will always give an answer between 0 and Max-1)
-	//Then adds one, to return a value in the range from 1 to Max (instead of 0 to Max-1)
-	return (rand() % 18000) + 1;
-}
+//int randomNumber()//random number generator
+//{
+//	//Gives the remainder of a division of the random seed by the maximum range  
+//	//(this will always give an answer between 0 and Max-1)
+//	//Then adds one, to return a value in the range from 1 to Max (instead of 0 to Max-1)
+//	return (rand() % 18000) + 1;
+//}
+
+
 
 void destroyUFOs()
 {

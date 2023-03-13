@@ -16,6 +16,7 @@ Description: Header file for Ship class
 #include <string>
 #include "Game.h"
 #include <vector>
+#include "Helper.h"
 
 using namespace std;
 
@@ -40,7 +41,7 @@ public:
 	int getX();
 	int getY();
 	void left();
-	void right();
+	void right() {};//Week 3 add the {} in ship.h and remove definition from ship
 	void down();
 	void draw(void);
 	void addFrame(string filename);
