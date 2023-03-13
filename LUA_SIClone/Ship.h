@@ -40,7 +40,7 @@ public:
 	void setY(int yVal);
 	int getX();
 	int getY();
-	void left();
+	void left() {};
 	void right() {};//Week 3 add the {} in ship.h and remove definition from ship
 	void down();
 	void draw(void);

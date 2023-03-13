@@ -28,11 +28,12 @@ Mothership::~Mothership()
 //Methods
 void Mothership::left()
 {
+	m_xpos = m_xpos - 3;
 }
 
 void Mothership::right()
 {
-	m_xpos = m_xpos + 3 ;
+	m_xpos = m_xpos + 3;
 }
 
 void Mothership::reduceLives()

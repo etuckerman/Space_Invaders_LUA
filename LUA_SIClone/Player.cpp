@@ -66,6 +66,11 @@ void Player::reset_score()
 	m_score = 0;
 }
 
+void Player::left(void)
+{
+	CallmoveLeft(L, "left", m_xpos, m_current_frame, m_direction_flag);
+}
+
 void Player::right(void)
 {
 	CallmoveRight(L, "right", m_xpos, m_current_frame);//week 3

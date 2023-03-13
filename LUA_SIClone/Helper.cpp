@@ -38,6 +38,21 @@ int CallRandomNumber(lua_State* L, const string& fname)
 	return (int)lua_tointeger(L, -1);
 }
 
+void CallmoveLeft(lua_State* L, const std::string& fname, float& xVal, float& frameVal, float& flag)
+{
+	lua_getglobal(L, fname.c_str());
+	if (!lua_isfunction(L, -1))
+		assert(false);
+	lua_pushnumber(L, xVal);
+	lua_pushnumber(L, frameVal);
+	lua_pushnumber(L, flag);
+	if (!LuaOK(L, lua_pcall(L, 3, 3, 0)))// calls a function in protected mode. (state, number of parameters, nubrs of return values, errorfunc)
+		assert(false);
+	xVal = (float)lua_tonumber(L, -3);
+	frameVal = (float)lua_tonumber(L, -2);
+	flag = (float)lua_tonumber(L, -1);
+}
+
 void CallmoveRight(lua_State* L, const std::string& fname, float& xVal, float& frameVal)
 {
 	lua_getglobal(L, fname.c_str());

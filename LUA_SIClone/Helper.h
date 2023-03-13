@@ -49,5 +49,5 @@ struct Vector2
 
 //Week 3 calling LUA functions
 int CallRandomNumber(lua_State* L, const std::string& fname);
-
+void CallmoveLeft(lua_State* L, const std::string& fname, float& xVal, float& frameVal, float& flag);
 void CallmoveRight(lua_State* L, const std::string& fname, float& xVal, float& frameVal);
