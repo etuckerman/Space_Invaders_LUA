@@ -12,7 +12,7 @@ Description: Source file for Ship class
 #include <stdio.h>
 #include <iostream>
 #include <conio.h>
-#include "Helper.h"
+//#include "Helper.h"
 
 
 //Constructor
@@ -61,10 +61,10 @@ Ship::~Ship()
 
 //void Ship::right(void)
 //{
-//	//m_xpos = m_xpos+5;
-//	//if (m_xpos >= 910) m_xpos = 910;
-//	//if (m_current_frame > 1.9)
-//	//	m_current_frame = 0;
+//	m_xpos = m_xpos+5;
+//	if (m_xpos >= 910) m_xpos = 910;
+//	if (m_current_frame > 1.9)
+//		m_current_frame = 0;
 //}
 
 void Ship::down(void)

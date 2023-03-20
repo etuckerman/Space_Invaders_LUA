@@ -12,19 +12,29 @@ Description: Source file for Ufo class
 #include <stdio.h>
 
 //Constructor
-Ufo::Ufo( float xPos, float yPos, string filename)
-	:Ship(xPos, yPos, filename)
-{
-	m_xpos = xPos;
-	m_ypos = yPos;
-}
+//Ufo::Ufo( float xPos, float yPos, string filename)
+//	:Ship(xPos, yPos, filename)
+//{
+//	m_xpos = xPos;
+//	m_ypos = yPos;
+//}
 
 Ufo::~Ufo()
 {
-	
+	lua_close(L);
 }
 
 //Methods
+
+void Ufo::left(int counter, int level)
+{
+	m_direction_flag = false;
+	m_current_frame = m_current_frame + 0.1f;
+	m_xpos = m_xpos - (0.5 + (counter / 17) + (level / 40));
+	if (m_current_frame > 1.9)
+		m_current_frame = 0;
+}
+
 void Ufo::right(int counter, int level)
 {
 	m_direction_flag = true;
@@ -34,13 +44,6 @@ void Ufo::right(int counter, int level)
 		m_current_frame = 0;
 }
 
-void Ufo::left(int counter, int level)
-{
-	m_direction_flag = false;
-	m_current_frame = m_current_frame + 0.1f;
-	m_xpos = m_xpos - (0.5 + (counter / 17)+(level/40));
-	if (m_current_frame > 1.9)
-		m_current_frame = 0;
-}
+
 
 

@@ -12,7 +12,7 @@ Description: Header file for Player class
 
 //includes go here
 #include "Ship.h"
-#include "Helper.h"
+//#include "Helper.h"
 
 using namespace std;
 
@@ -40,11 +40,7 @@ public:
 		//note - you culd press a key to reload and execute this script file at run time
 		//just close the state, then ru nthis dofile line again
 		if (!LuaOK(L, luaL_dofile(L, "LuaScript.lua")))
-			assert(false);
-
-
-
-		
+			assert(false);		
 	}
 	~Player(void);
 
