@@ -1,7 +1,3 @@
---GAME
-function callMessage()
-	display_message("Get a Life", 1)
-end
 
 
 -- WORLD
@@ -52,7 +48,7 @@ end
 
 function setPlayerScore()--part 2
 	CDispatcher("setScore", 5000)
-	end
+end
 
 --MOTHERSHIP
 mothershipSprite = "assets/Mothership2.bmp"
@@ -81,4 +77,14 @@ function UFOright(counter, currentFrame, level)
 		currentFrame = 0;
 	end
 	return counter, currentFrame, level
+end
+
+
+--GAME
+function callMessage()
+	display_message("Get a Life", 1)
+end
+
+function callStartScreen()
+	game_start_message(10,10)
 end

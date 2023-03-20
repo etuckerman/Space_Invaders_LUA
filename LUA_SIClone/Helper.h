@@ -65,7 +65,7 @@ public:
 	//register game functions
 	void Register(const std::string& name, Command cmd)
 	{
-		assert(library.find(name) == library.end());
+		if(library.find(name) == library.end())
 		library[name] = cmd;
 	}
 	//lua calls this then the data gets dispatched to the named function

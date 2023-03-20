@@ -80,8 +80,7 @@ int display_message(lua_State* L)
 	lua_pop(L, 2);
 	return 1;
 }
-void game_start_message();
-
+int game_start_message(lua_State* L);
 int main()
 {
 
@@ -99,6 +98,7 @@ int main()
 	if (!LuaOK(L, luaL_dofile(L, "LuaScript.lua")))
 		assert(false);
 	lua_register(L, "display_message", display_message);
+	lua_register(L, "callStartScreen", game_start_message);
 
 	// DECLARE variables
 	bool is_right = true;//move direction check	
@@ -163,8 +163,9 @@ int main()
 	disp.Init(L);
 	the_ship->Init(disp);
 	
-	game_start_message();//DISPLAY THE GAME START MESSAGE 
-	
+	//int game_start_message(lua_State* L);//DISPLAY THE GAME START MESSAGE 
+	CallVoidVoidCFunc(L, "callStartScreen");
+
 	while (the_ship->getLives() > 0)// keep going until the ship is dead
 	{			
 			al_flush_event_queue(Input_manager->Get_event());//clears the queue of events
@@ -498,7 +499,8 @@ int main()
 								level_colour = 0;//for setting the background colour for each level and also defines the max number of levels
 								Level_number = 1;
 								the_ship->reset_lives();
-								game_start_message();//DISPLAY THE GAME START MESSAGE 
+								//game_start_message();//DISPLAY THE GAME START MESSAGE 
+								CallVoidVoidCFunc(L, "test");
 								for (int i = 0; i < 10; i++)//set all lasers to null
 								{
 									laser_limit[i] = NULL;
@@ -653,8 +655,12 @@ void spawnUFOs()
 
 
 
-void game_start_message()
+int game_start_message(lua_State* L)
 {
+	const char* message = lua_tostring(L, 1);
+	int time1 = lua_tointeger(L, 1);
+	int time = lua_tointeger(L, 2);
+	
 	//for (int i = 1; i <= 10; i++)
 	//{
 	//	al_clear_to_color(al_map_rgb(125, 125, 125)); // colour entire display with rgb colour
@@ -697,22 +703,24 @@ void game_start_message()
 	//	the_ship = new Player(500, 625, 5, skin0);//create the player ship
 	//	the_ship->addFrame(skin1);
 	//}
-	for (int i = 1; i <= 10; i++)
+	for (int i = 0; i <= time1; i++)
 	{
 		al_clear_to_color(al_map_rgb(125, 125, 125)); // colour entire display with rgb colour
-		al_draw_textf(Game_manager->message(), al_map_rgb(255, 0, 0), 300, 300, 0, "GET READY");
+		al_draw_textf(Game_manager->message(), al_map_rgb(255, 0, 0), 300, 300, 0, "Get Ready");
 		al_flip_display();
 		al_rest(0.25);
 		al_clear_to_color(al_map_rgb(125, 125, 125)); // colour entire display with rgb colour
-		al_draw_textf(Game_manager->message(), al_map_rgb(0, 0, 0), 300, 300, 0, "GET READY");
+		al_draw_textf(Game_manager->message(), al_map_rgb(0, 0, 0), 300, 300, 0, "Get Ready");
 		al_flip_display();
 		al_rest(0.25);
 	}
-	for (int i = 5; i >= 0; i--)//DISPLAY THE GAME START MESSAGE *maybe in a method or function?*
+	for (int i = 0; i <= time; i++)//DISPLAY THE GAME START MESSAGE *maybe in a method or function?*
 	{
 		al_clear_to_color(al_map_rgb(125, 125, 125)); // colour entire display with rgb colour
 		al_draw_textf(Game_manager->message(), al_map_rgb(0, 255, 0), 300, 300, 0, "START IN: %d", i);
 		al_flip_display();
 		al_rest(1.0);
 	}
+	lua_pop(L, 2);
+	return 1;
 }
