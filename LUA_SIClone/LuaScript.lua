@@ -3,6 +3,7 @@ function callMessage()
 	display_message("Get a Life", 1)
 end
 
+
 -- WORLD
 -- math.random(1,255)
 -- math.random(1,25)
@@ -38,9 +39,9 @@ function left(x, currentFrame, directionFlag)
 	directionFlag = false
 	currentFrame = currentFrame + 0.1
 	x = x-5
-	if (x <= -910)
+	if (x <= -0)
 	then
-		x = -910
+		x = -0
 	end
 	if (currentFrame > 1.9)
 	then
@@ -48,6 +49,10 @@ function left(x, currentFrame, directionFlag)
 	end
 	return x, currentFrame, directionFlag
 end
+
+function setPlayerScore()--part 2
+	CDispatcher("setScore", 5000)
+	end
 
 --MOTHERSHIP
 mothershipSprite = "assets/Mothership2.bmp"

@@ -99,6 +99,7 @@ int main()
 	if (!LuaOK(L, luaL_dofile(L, "LuaScript.lua")))
 		assert(false);
 	lua_register(L, "display_message", display_message);
+
 	// DECLARE variables
 	bool is_right = true;//move direction check	
 	int ufo_counter = 0;//how many ufos destroyed (this tells the game when to start a new level)
@@ -156,6 +157,11 @@ int main()
 	playerPos.FromLua(L, "playerStartpos");
 	the_ship = new Player(playerPos.x, playerPos.y, LuaGetInt(L, "playerLives"), LuaGetStr(L, "playerSprite"));//create the player ship
 	the_ship->addFrame(LuaGetStr(L, "playerSprite"));
+
+	//WEEK 4 PART 2
+	Dispatcher disp;
+	disp.Init(L);
+	the_ship->Init(disp);
 	
 	game_start_message();//DISPLAY THE GAME START MESSAGE 
 	
@@ -304,7 +310,8 @@ int main()
 										ufo_counter++;
 										delete DynamicUfoArray[y][x];
 										DynamicUfoArray[y][x] = nullptr;
-										the_ship->setScore(100);
+										/*the_ship->setScore(100);*/
+										CallVoidVoidCFunc(L, "setPlayerScore");//WEEK 4 PART 2
 										delete laser_limit[i];
 										laser_limit[i] = nullptr;
 									}
@@ -317,14 +324,17 @@ int main()
 								&& laser_limit[i]->getX() + 4 >= the_mothership->getX() && laser_limit[i]->getX() + 4 <= the_mothership->getX() + 103)  
 							{																	
   								the_mothership->reduceLives();
-								the_ship->setScore(20);
+								//the_ship->setScore(20);
+								CallVoidVoidCFunc(L, "setPlayerScore");//WEEK 4 PART 2
 								if (the_mothership->getLives() <= 0)
 								{
 									the_ship->increaseLives();
-									the_ship->setScore(300);
+									//the_ship->setScore(300);
+									CallVoidVoidCFunc(L, "setPlayerScore");//WEEK 4 PART 2
 									delete the_mothership;
 									the_mothership = nullptr;
-									the_ship->setScore(100);
+									//the_ship->setScore(100);
+									CallVoidVoidCFunc(L, "setPlayerScore");//WEEK 4 PART 2
 									delete laser_limit[i];
 									laser_limit[i] = nullptr;
 									laser_limit[i] = NULL;

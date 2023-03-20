@@ -4,6 +4,27 @@
 #include "Helper.h"
 using namespace std;
 
+//Week4 calling c++ functions from Lua
+
+std::map<string, Dispatcher::Command> Dispatcher::library;
+
+int Dispatcher::LuaCall(lua_State* L)
+{
+	string name = lua_tostring(L, 1);
+	std::map<string, Command>::iterator it = library.find(name);
+	assert(it != library.end());
+	Command& cmd = (*it).second;
+	if (cmd.voidintfunct)
+	{
+		int param = lua_tointeger(L, 2);
+		cmd.voidintfunct(param);
+		lua_pop(L, 1);
+	}
+	else //add any more cases here
+		assert(false);
+	return 1;
+}
+
 bool LuaOK(lua_State* L, int id) {
 	if (id != LUA_OK)
 	{

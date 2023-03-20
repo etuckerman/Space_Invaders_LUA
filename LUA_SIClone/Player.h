@@ -16,6 +16,8 @@ Description: Header file for Player class
 
 using namespace std;
 
+
+
 class Player: public Ship
 {
 private:
@@ -44,6 +46,13 @@ public:
 	}
 	~Player(void);
 
+	//week4 part2
+	void Init(Dispatcher& disp)
+	{
+		//tell the dispatcher we have a function for Lua
+		Dispatcher::Command::voidintfunc f{ [this](int score) {return setScore(score); } };
+		disp.Register("setScore", Dispatcher::Command{ f });
+	}
 
 	//methods
 	void reduceLives();
