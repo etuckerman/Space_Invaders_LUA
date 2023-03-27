@@ -57,12 +57,12 @@ int x, y;//used for ufo array coordinates
 
 //int randomNumber();//random number generator
 void destroyUFOs();
-void spawnUFOs();
+void spawnUFOs(lua_State* L);
 int display_message(lua_State* L)
 {
 	const char* message = lua_tostring(L, 1);
 	int time = lua_tointeger(L, 2);
-	for (int i = 1; i <= time; i++)//DISPLAY THE GAME OVER MESSAGE *maybe in a method or function?*
+	for (int i = 0; i <= time; i++)//DISPLAY THE GAME OVER MESSAGE *maybe in a method or function?*
 	{
 		al_clear_to_color(al_map_rgb(125, 125, 125)); // colour entire display with rgb colour
 		al_draw_textf(Game_manager->message(), al_map_rgb(100, 250, 50), 300, 300, 0, message);
@@ -170,7 +170,7 @@ int main()
 	{			
 			al_flush_event_queue(Input_manager->Get_event());//clears the queue of events
 
-			spawnUFOs();
+			spawnUFOs(L);
 			for (int i = 0; i < 10; i++)//set all lasers to null
 			{
 				laser_limit[i] = NULL;
@@ -208,7 +208,10 @@ int main()
 						{
 							if (laser_limit[i] == NULL)
 							{
-								laser_limit[i] = new laser(the_ship->getX() + 44, the_ship->getY(), "assets/PlayerLaser.bmp");
+								/*laser_limit[i] = new laser(the_ship->getX() + 44, the_ship->getY(), "assets/player0.bmp");
+								break;*/
+								laser_limit[i] = new laser(the_ship->getX() + 44, the_ship->getY(), LuaGetStr(L, "playerLaser"));
+
 								break;
 							}
 						}
@@ -229,7 +232,9 @@ int main()
 									{
 										if (Ufo_lasers[i] == NULL)
 										{
-											Ufo_lasers[i] = new laser(DynamicUfoArray[y][x]->getX() + 35, DynamicUfoArray[y][x]->getY() + 53, "assets/PlayerLaser.bmp");
+											/*Ufo_lasers[i] = new laser(DynamicUfoArray[y][x]->getX() + 35, DynamicUfoArray[y][x]->getY() + 53, "assets/PlayerLaser.bmp");
+											break;*/
+											Ufo_lasers[i] = new laser(DynamicUfoArray[y][x]->getX() + 35, DynamicUfoArray[y][x]->getY() + 53, LuaGetStr(L, "ufoLaser"));
 											break;
 										}
 									}
@@ -474,7 +479,7 @@ int main()
 						for (int i = 10; i >= 0; i--)//DISPLAY THE GAME OVER MESSAGE *maybe in a method or function?*
 						{
 							al_clear_to_color(al_map_rgb(125, 125, 125)); // colour entire display with rgb colour
-							al_draw_textf(Game_manager->message(), al_map_rgb(255, 0, 0), 300, 300, 0, "BLOWED UP");
+							al_draw_textf(Game_manager->message(), al_map_rgb(255, 0, 0), 300, 300, 0, "EXPLODED");
 							al_draw_textf(Game_manager->small_message(), al_map_rgb(255, 0, 0), 0, 400, 0, "ANOTHER GO? (press enter): %d", i);
 							al_draw_textf(Game_manager->small_message(), al_map_rgb(255, 0, 0), 0, 0, 0, "lives: %d", the_ship->getLives());
 							al_draw_textf(Game_manager->small_message(), al_map_rgb(255, 0, 0), 200, 0, 0, "Score: %d", the_ship->getScore());
@@ -483,7 +488,7 @@ int main()
 							al_rest(0.25);
 
 							al_clear_to_color(al_map_rgb(125, 125, 125)); // colour entire display with rgb colour
-							al_draw_textf(Game_manager->message(), al_map_rgb(0, 0, 0), 300, 300, 0, "BLOWED UP");
+							al_draw_textf(Game_manager->message(), al_map_rgb(0, 0, 0), 300, 300, 0, "EXPLODED");
 							al_draw_textf(Game_manager->small_message(), al_map_rgb(255, 0, 0), 0, 400, 0, "ANOTHER GO? (press enter): %d", i);
 							al_draw_textf(Game_manager->small_message(), al_map_rgb(0, 0, 0), 0, 0, 0, "lives: %d", the_ship->getLives());
 							al_draw_textf(Game_manager->small_message(), al_map_rgb(255, 0, 0), 200, 0, 0, "Score: %d", the_ship->getScore());
@@ -520,7 +525,7 @@ int main()
 								//delete the ufo's 
 								destroyUFOs();
 								//then respawn them
-								spawnUFOs();
+								spawnUFOs(L);
 								break;
 							}
 						}
@@ -618,8 +623,13 @@ void destroyUFOs()
 	}
 }
 
-void spawnUFOs()
+void spawnUFOs(lua_State* L)
 {
+
+	//Load and parse the Lua File
+	//note - you could just press a key to reload and execute this script file at run time
+	//just close the state, then run this dofile line again
+
 	for (y = 0; y < 5; y++)//spawn ufos
 	{
 		DynamicUfoArray[y] = new Ufo * [10];
@@ -628,8 +638,15 @@ void spawnUFOs()
 	{
 		for (x = 0; x < 10; x++)
 		{
-			DynamicUfoArray[y][x] = new Ufo((x * 85) + 85, (y * 50) + 70, "assets/Ufo1.bmp");
-			DynamicUfoArray[y][x]->addFrame("assets/Ufo2.bmp");
+			if (!LuaOK(L, luaL_dofile(L, "LuaScript.lua")))
+				assert(false);
+
+			//DynamicUfoArray[y][x] = new Ufo((x * 85) + 85, (y * 50) + 70, "assets/Ufo1.bmp");
+			//DynamicUfoArray[y][x]->addFrame("assets/Ufo2.bmp");
+			/*Vector2 ufoPos;
+			ufoPos.FromLua(L, "ufoStartpos");*/
+			DynamicUfoArray[y][x] = new Ufo((x * 85) + 85, (y * 50) + 70, LuaGetStr(L, "ufoSprite"));
+			DynamicUfoArray[y][x]->addFrame(LuaGetStr(L, "ufoSprite2"));
 		}
 	}
 }
